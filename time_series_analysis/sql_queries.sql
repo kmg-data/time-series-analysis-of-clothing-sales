@@ -18,21 +18,18 @@ ORDER BY 1,2
 ;
 
 -- 12개월 이동 평균 매출
-SELECT a.kind_of_business 
-,a.sales_month
-,a.sales
-,avg(b.sales) as moving_avg
-,count(b.sales) as records_count
-FROM retail_sales a
-JOIN retail_sales b on a.kind_of_business = b.kind_of_business 
- and b.sales_month between a.sales_month - interval '11 months' 
- and a.sales_month
- and b.kind_of_business in ('Women''s clothing stores', 'Men''s clothing stores')
-WHERE a.kind_of_business in ('Women''s clothing stores', 'Men''s clothing stores')
-and a.sales_month >= '1993-01-01'
-GROUP BY 1,2,3
-ORDER BY 1,2
-;
+SELECT *
+FROM (SELECT kind_of_business
+,sales_month
+,sales
+,avg(sales) over (partition by kind_of_business
+ORDER BY sales_month rows between 11 preceding and current row) as moving_avg
+,count(sales) over (partition by kind_of_business
+ORDER BY sales_month rows between 11 preceding and current row) as records_count
+FROM retail_sales
+WHERE kind_of_business in ('Women''s clothing stores', 'Men''s clothing stores')
+)
+WHERE sales_month >= '1993-01-01'
 
 -- 최근 여성 의류업의 월간 매출과 누적 매출(YTD)
 SELECT sales_month
