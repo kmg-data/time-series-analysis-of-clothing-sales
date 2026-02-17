@@ -1,6 +1,6 @@
 -- 남성 의류업과 여성 의류업의 월간 매출과 12개월 이동 평균 매출
 
--- 월간 매출
+-- 월간 매출과 12개월 이동 평균 매출(self-join 방식)
 SELECT a.kind_of_business 
 ,a.sales_month
 ,a.sales
@@ -17,7 +17,7 @@ GROUP BY 1,2,3
 ORDER BY 1,2
 ;
 
--- 12개월 이동 평균 매출
+-- 월간 매출과 12개월 이동 평균 매출(윈도우 함수 방식)
 SELECT *
 FROM (SELECT kind_of_business
 ,sales_month
@@ -31,13 +31,6 @@ WHERE kind_of_business in ('Women''s clothing stores', 'Men''s clothing stores')
 )
 WHERE sales_month >= '1993-01-01'
 
--- 최근 여성 의류업의 월간 매출과 누적 매출(YTD)
-SELECT sales_month
-,sales
-,sum(sales) over (partition by date_part('year',sales_month) order by sales_month) as sales_ytd
-FROM retail_sales
-WHERE kind_of_business = 'Women''s clothing stores'
-;
 
 -- 여성 의류업과 남성 의류업의 연간 매출
 SELECT sales_month
