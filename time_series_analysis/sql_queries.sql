@@ -33,11 +33,12 @@ WHERE sales_month >= '1993-01-01'
 
 
 -- 여성 의류업과 남성 의류업의 연간 매출
-SELECT sales_month
+SELECT date_part('year',sales_month) as sales_year
 ,kind_of_business
-,sales
+,sum(sales) as sales
 FROM retail_sales
 WHERE kind_of_business in ('Men''s clothing stores','Women''s clothing stores')
+GROUP BY 1,2
 ORDER BY 1,2
 ;
 
