@@ -115,7 +115,7 @@ FROM
     ,kind_of_business
     ,sum(sales) as sales
     FROM retail_sales
-    WHERE kind_of_business in ('Men''s clothing stores','Women''s clothing stores')  and sales_month <= '2019-12-31'
+    WHERE kind_of_business in ('Men''s clothing stores','Women''s clothing stores') 
     GROUP BY 1,2
 ) a
 ORDER BY 1,2
