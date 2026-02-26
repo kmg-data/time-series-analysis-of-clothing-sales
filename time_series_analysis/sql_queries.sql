@@ -55,7 +55,6 @@ as womens_minus_mens
 FROM retail_sales
 WHERE kind_of_business in ('Men''s clothing stores'
 ,'Women''s clothing stores')
-and sales_month <= '2019-12-01'
 GROUP BY 1
 ORDER BY 1
 ;
@@ -75,7 +74,6 @@ FROM
     FROM retail_sales
     WHERE kind_of_business in ('Men''s clothing stores'
     ,'Women''s clothing stores')
-    and sales_month <= '2019-12-01'
     GROUP BY 1
 ) a
 ORDER BY 1
